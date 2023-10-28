@@ -54,17 +54,17 @@ app.get('/todos/:id', async (req, res) => {
 app.post('/todos', async (req, res) => {
   try {
     // Destructure title and description from the request body
-    const { title, description } = req.body;
+    const { title, description, location } = req.body;
 
     // Create a new Todo instance with the extracted values
-    const newTodo = new Todo({ title, description });
+    const newTodo = new Todo({ title, description, location });
 
     // Save the todo to the database
     const savedTodo = await newTodo.save();
 
     res.json(savedTodo);
   } catch (error) {
-    console.error('Error creating todo:', error);
+    console.error('Error creating task:', error);
     res.status(500).json({ message: 'Server Error' });
   }
 });
@@ -73,27 +73,32 @@ app.post('/todos', async (req, res) => {
 // Update a task by ID
 app.put('/todos/:id', async (req, res) => {
   try {
-    const updatedTodo = await Todo.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updatedTodo = await Todo.findByIdAndUpdate(
+      req.params.id,
+      { ...req.body, completed: true },
+      { new: true }
+    );
     if (!updatedTodo) {
-      return res.status(404).json({ message: 'Todo not found' });
+      return res.status(404).json({ message: 'Task not found' });
     }
     res.json(updatedTodo);
   } catch (error) {
-    console.error('Error updating todo by ID:', error);
+    console.error('Error updating task by ID:', error);
     res.status(500).json({ message: 'Server Error' });
   }
 });
+
 
 // Delete a task by ID
 app.delete('/todos/:id', async (req, res) => {
   try {
     const deletedTodo = await Todo.findByIdAndDelete(req.params.id);
     if (!deletedTodo) {
-      return res.status(404).json({ message: 'Todo not found' });
+      return res.status(404).json({ message: 'Task not found' });
     }
     res.json(deletedTodo);
   } catch (error) {
-    console.error('Error deleting todo by ID:', error);
+    console.error('Error deleting task by ID:', error);
     res.status(500).json({ message: 'Server Error' });
   }
 });
