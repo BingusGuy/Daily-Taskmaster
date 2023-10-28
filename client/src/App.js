@@ -6,8 +6,8 @@ import axios from 'axios';
 function App() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState({
-    Task: '', // Update key to Task
-    Description: '', // Update key to Description
+    title: '', // Update key to Task
+    description: '', // Update key to Description
   });
 
   const handleChange = (e) => {
@@ -24,8 +24,8 @@ function App() {
       const response = await axios.post('http://localhost:5000/todos', newTodo);
       setTodos([...todos, response.data]);
       setNewTodo({
-        Task: '', // Update key to Task
-        Description: '', // Update key to Description
+        title: '', // Update key to Task
+        description: '', // Update key to Description
       });
     } catch (error) {
       console.error('Error creating task:', error);
@@ -51,18 +51,18 @@ function App() {
       <form onSubmit={handleSubmit}>
         <label>
           Task: {/* Update label */}
-          <input type="text" name="Task" value={newTodo.Task} onChange={handleChange} required />
+          <input type="text" name="title" value={newTodo.title} onChange={handleChange} required />
         </label>
         <label>
           Description: {/* Update label */}
-          <input type="text" name="Description" value={newTodo.Description} onChange={handleChange} required />
+          <input type="text" name="description" value={newTodo.description} onChange={handleChange} required />
         </label>
         <button type="submit">Add Task</button>
       </form>
       <ul>
         {todos.map((todo) => (
           <li key={todo._id}>
-            {todo.Task} - {todo.Description} ({todo.completed ? 'Completed' : 'Incomplete'})
+            {todo.title} - {todo.description} ({todo.completed ? 'Completed' : 'Incomplete'})
           </li>
         ))}
       </ul>

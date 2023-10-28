@@ -5,9 +5,9 @@ const Todo = require('./models/Todo');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-
+//password P9BpQ8eQjjkYquW5
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/dailytaskmaster', {
+mongoose.connect('mongodb+srv://ac31:P9BpQ8eQjjkYquW5@cluster0.msgoxxi.mongodb.net/?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -53,14 +53,22 @@ app.get('/todos/:id', async (req, res) => {
 // Create a new task
 app.post('/todos', async (req, res) => {
   try {
-    const newTodo = new Todo(req.body);
+    // Destructure title and description from the request body
+    const { title, description } = req.body;
+
+    // Create a new Todo instance with the extracted values
+    const newTodo = new Todo({ title, description });
+
+    // Save the todo to the database
     const savedTodo = await newTodo.save();
+
     res.json(savedTodo);
   } catch (error) {
     console.error('Error creating todo:', error);
     res.status(500).json({ message: 'Server Error' });
   }
 });
+
 
 // Update a task by ID
 app.put('/todos/:id', async (req, res) => {
