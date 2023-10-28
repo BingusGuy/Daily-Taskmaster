@@ -17,6 +17,10 @@ const todoSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  location: {
+    type: String,
+    required: true,
+  },
 });
 
 const Todo = mongoose.model('Todo', todoSchema);
