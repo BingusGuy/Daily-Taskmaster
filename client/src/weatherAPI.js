@@ -1,7 +1,7 @@
 const API_KEY = '416da157ae34fd8045d2e2965c01e2e9';
 
 const fetchWeather = async () => {
-  const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=39.412327&lon=77.425461&appid=${API_KEY}&units=metric`;
+  const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=39.412327&lon=77.425461&appid=${API_KEY}&units=imperial`;
 
   try {
     const response = await fetch(apiUrl);

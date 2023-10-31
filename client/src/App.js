@@ -1,7 +1,7 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-//import WeatherDisplay from './weatherDisplay';
+import WeatherDisplay from './weatherDisplay.js';
 
 function App() {
   const [todos, setTodos] = useState([]);
@@ -18,6 +18,7 @@ function App() {
     }));
   };
 
+  // Handles the submission boxes
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -25,6 +26,9 @@ function App() {
       const todoDefault = { ...newTodo, location: newTodo.location || 'Inside' };
       const response = await axios.post('http://localhost:5000/todos', todoDefault);
       setTodos([...todos, response.data]);
+      if (response.data.location === 'Outside') {
+        setOutsideTask(true);
+      }
       setNewTodo({
         title: '', // Updates this with the user assigned task name
         description: '', // Updates this with the user assigned description
@@ -35,8 +39,10 @@ function App() {
     }
   };
 
+  // Handles the deletion of tasks
   const handleDelete = async (taskId) => {
     try {
+      const deletedTask = todos.find((todo) => todo._id === taskId);
       await axios.delete(`http://localhost:5000/todos/${taskId}`);
       setTodos(todos.filter((todo) => todo._id !== taskId));
     } catch (error) {
@@ -44,6 +50,7 @@ function App() {
     }
   };
   
+  // Allows tasks to be marked as complete
   const handleComplete = async (taskId) => {
     try {
       const response = await axios.put(`http://localhost:5000/todos/${taskId}`, {
@@ -55,12 +62,16 @@ function App() {
     }
   };
   
-
+  // Gets all the tasks
+  const [hasOutsideTask, setOutsideTask] = useState(false);
   useEffect(() => {
     const fetchTodos = async () => {
       try {
         const response = await axios.get('http://localhost:5000/todos');
         setTodos(response.data);
+        
+        const hasOutside = response.data.some((todo) => todo.location == 'Outside');
+        setOutsideTask(hasOutside);
       } catch (error) {
         console.error('Error fetching todos:', error);
       }
@@ -69,20 +80,26 @@ function App() {
     fetchTodos();
   }, []);
 
+  // Checks all the tasks to see if there are outside tasks
+  useEffect(() => {
+    const hasRemainingOutsideTasks = todos.some((todo) => todo.location === 'Outside');
+    setOutsideTask(hasRemainingOutsideTasks);
+  }, [todos]);
+
   return (
     <div className="App">
       <h1>Daily Taskmaster</h1>
       <form onSubmit={handleSubmit}>
         <label>
-          Task:
+          <strong>Task:</strong>
           <input type="text" name="title" value={newTodo.title} onChange={handleChange} required />
         </label>
         <label>
-          Description:
+          <strong>Description:</strong>
           <input type="text" name="description" value={newTodo.description} onChange={handleChange} required />
         </label>
         <label>
-          Location:
+          <strong>Location:</strong>
           <select name="location" value={newTodo.location} onChange={handleChange}>
             <option value="Inside">Inside</option>
             <option value="Outside">Outside</option>
@@ -91,6 +108,12 @@ function App() {
         <button type="submit">Add Task</button>
       </form>
       <div className="separator"></div>
+      {hasOutsideTask && (
+        <div>
+          <p className="message">Looks like you have an outside task! Here's the weather for the day: </p>
+          <WeatherDisplay className="info" />
+        </div>
+      )}
       <ul>
         {todos.map((todo) => (
           <li key={todo._id} className={todo.completed ? 'completed' : ''}>

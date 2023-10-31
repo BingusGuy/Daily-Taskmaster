@@ -6,7 +6,7 @@ const Todo = require('./models/Todo');
 const app = express();
 const PORT = process.env.PORT || 5000;
 // password P9BpQ8eQjjkYquW5
-// Connect to MongoDB
+// Connects to MongoDB
 mongoose.connect('mongodb+srv://ac31:P9BpQ8eQjjkYquW5@cluster0.msgoxxi.mongodb.net/?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -25,7 +25,7 @@ db.once('open', () => {
 app.use(express.json());
 app.use(cors());
 
-// Get all tasks
+// Gets all tasks
 app.get('/todos', async (req, res) => {
   try {
     const todos = await Todo.find();
@@ -36,7 +36,7 @@ app.get('/todos', async (req, res) => {
   }
 });
 
-// Get a specific task by ID
+// Gets a specific task by ID
 app.get('/todos/:id', async (req, res) => {
   try {
     const todo = await Todo.findById(req.params.id);
@@ -50,16 +50,15 @@ app.get('/todos/:id', async (req, res) => {
   }
 });
 
-// Create a new task
+// Creates a new task
 app.post('/todos', async (req, res) => {
   try {
-    // Destructure title and description from the request body
     const { title, description, location } = req.body;
 
-    // Create a new Todo instance with the extracted values
+    // Creates a new task instance with the extracted values
     const newTodo = new Todo({ title, description, location });
 
-    // Save the todo to the database
+    // Saves the task to the database
     const savedTodo = await newTodo.save();
 
     res.json(savedTodo);
@@ -70,7 +69,7 @@ app.post('/todos', async (req, res) => {
 });
 
 
-// Update a task by ID
+// Updates a task by ID
 app.put('/todos/:id', async (req, res) => {
   try {
     const updatedTodo = await Todo.findByIdAndUpdate(
@@ -89,7 +88,7 @@ app.put('/todos/:id', async (req, res) => {
 });
 
 
-// Delete a task by ID
+// Deletes a task by ID
 app.delete('/todos/:id', async (req, res) => {
   try {
     const deletedTodo = await Todo.findByIdAndDelete(req.params.id);
