@@ -96,7 +96,9 @@ function App() {
           <li key={todo._id} className={todo.completed ? 'completed' : ''}>
             <strong>{todo.title}</strong> - {todo.description} - <i>{todo.location}</i> : <strong>({todo.completed ? 'Completed' : 'Incomplete'})</strong>
 
-            <button onClick={() => handleComplete(todo._id)}>Complete</button>
+            {!todo.completed && (
+              <button onClick={() => handleComplete(todo._id)}>Complete</button>
+            )}
             <button className="delete" onClick={() => handleDelete(todo._id)}>X</button>
           </li>
         ))}
