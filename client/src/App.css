@@ -1,5 +1,97 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f8f8;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   text-align: center;
+  margin: 20px;
+}
+
+h1 {
+  color: #e44d26;
+  font-weight: 1000;
+}
+
+form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0 auto;
+  width: 800px
+}
+
+label {
+  margin-right: 10px;
+  color: #555;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+input {
+  flex: 1;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px;
+  background-color: #e44d26;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 80px;
+  margin-right: 5px;
+  margin-left: 15px;
+}
+
+button.delete {
+  background-color: #dadada;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+  width: 40px;
+}
+
+button.delete:hover {
+  background-color: #a90a17;
+}
+
+button:hover {
+  background-color: #c73c1e;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+}
+
+.App {
+  text-align: center;
+  margin: 20px
 }
 
 .App-logo {
@@ -35,4 +127,17 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.completed {
+  text-decoration: line-through;
+  color: #888
+}
+
+.separator {
+  height: 20px;
+  background-color: #e44d26;
+  width: 100%;
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
