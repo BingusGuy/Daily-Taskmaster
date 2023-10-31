@@ -1,5 +1,5 @@
-/**import React, { useState, useEffect } from 'react';
-import fetchWeather from './server/weatherAPI';
+import React, { useState, useEffect } from 'react';
+import fetchWeather from './weatherAPI.js';
 
 const WeatherDisplay = () => {
   const [weather, setWeather] = useState(null);
@@ -21,7 +21,7 @@ const WeatherDisplay = () => {
     <div>
       {weather ? (
         <p>
-          Temperature: {weather.temperature}°C, Weather: {weather.description}
+          <strong>Temperature: </strong>{weather.temperature}°F, <strong>Weather: </strong>{weather.description}
         </p>
       ) : (
         <p>Loading weather data...</p>
@@ -30,4 +30,4 @@ const WeatherDisplay = () => {
   );
 };
 
-export default WeatherDisplay;**/
+export default WeatherDisplay;
