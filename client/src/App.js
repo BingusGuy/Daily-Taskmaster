@@ -1,14 +1,14 @@
-import logo from './logo.svg';
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+//import WeatherDisplay from './weatherDisplay';
 
 function App() {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState({
-    title: '', // Update key to Task
-    description: '', // Update key to Description
-    location: '',
+    title: '', // Updates this with the user assigned task name
+    description: '', // Updates this with the user assigned description
+    location: '', // Inside or Outside, depending on what user selects
   });
 
   const handleChange = (e) => {
@@ -22,12 +22,13 @@ function App() {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5000/todos', newTodo);
+      const todoDefault = { ...newTodo, location: newTodo.location || 'Inside' };
+      const response = await axios.post('http://localhost:5000/todos', todoDefault);
       setTodos([...todos, response.data]);
       setNewTodo({
-        title: '', // Update key to Task
-        description: '', // Update key to Description
-        location: '',
+        title: '', // Updates this with the user assigned task name
+        description: '', // Updates this with the user assigned description
+        location: '', // Inside or Outside, depending on what user selects
       });
     } catch (error) {
       console.error('Error creating task:', error);
@@ -82,16 +83,21 @@ function App() {
         </label>
         <label>
           Location:
-          <input type="text" name="location" value={newTodo.location} onChange={handleChange} required />
+          <select name="location" value={newTodo.location} onChange={handleChange}>
+            <option value="Inside">Inside</option>
+            <option value="Outside">Outside</option>
+          </select>
         </label>
         <button type="submit">Add Task</button>
       </form>
+      <div className="separator"></div>
       <ul>
         {todos.map((todo) => (
-          <li key={todo._id}>
+          <li key={todo._id} className={todo.completed ? 'completed' : ''}>
             <strong>{todo.title}</strong> - {todo.description} - <i>{todo.location}</i> : <strong>({todo.completed ? 'Completed' : 'Incomplete'})</strong>
-            <button onClick={() => handleDelete(todo._id)}>Delete</button>
+
             <button onClick={() => handleComplete(todo._id)}>Complete</button>
+            <button className="delete" onClick={() => handleDelete(todo._id)}>X</button>
           </li>
         ))}
       </ul>
