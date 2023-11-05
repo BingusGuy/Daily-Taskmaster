@@ -20,7 +20,7 @@ const WeatherDisplay = () => {
   return (
     <div>
       {weather ? (
-        <p>
+        <p className="info">
           <strong>Temperature: </strong>{weather.temperature}°F, <strong>Weather: </strong>{weather.description}
         </p>
       ) : (

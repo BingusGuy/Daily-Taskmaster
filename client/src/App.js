@@ -2,6 +2,7 @@ import './App.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import WeatherDisplay from './weatherDisplay.js';
+import EditForm from './EditForm.js';
 
 function App() {
   const [todos, setTodos] = useState([]);
@@ -41,22 +42,33 @@ function App() {
 
   // Handles the deletion of tasks
   const handleDelete = async (taskId) => {
-    try {
-      const deletedTask = todos.find((todo) => todo._id === taskId);
-      await axios.delete(`http://localhost:5000/todos/${taskId}`);
-      setTodos(todos.filter((todo) => todo._id !== taskId));
-    } catch (error) {
-      console.error('Error deleting task:', error);
+    const confirmDelete = window.confirm("Are you sure you want to delete this task?");
+
+    if (confirmDelete) {
+      try {
+        const deletedTask = todos.find((todo) => todo._id === taskId);
+        await axios.delete(`http://localhost:5000/todos/${taskId}`);
+        setTodos(todos.filter((todo) => todo._id !== taskId));
+      } catch (error) {
+        console.error('Error deleting task:', error);
+      }
     }
   };
-  
+
   // Allows tasks to be marked as complete
   const handleComplete = async (taskId) => {
     try {
       const response = await axios.put(`http://localhost:5000/todos/${taskId}`, {
         completed: true,
       });
-      setTodos(todos.map((todo) => (todo._id === taskId ? response.data : todo)));
+  
+      if (response.status === 200) {
+        setTodos((prevTodos) =>
+          prevTodos.map((todo) =>
+            todo._id === taskId ? { ...todo, completed: true } : todo
+          )
+        );
+      }
     } catch (error) {
       console.error('Error completing task:', error);
     }
@@ -65,26 +77,50 @@ function App() {
   // Gets all the tasks
   const [hasOutsideTask, setOutsideTask] = useState(false);
   useEffect(() => {
-    const fetchTodos = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/todos');
-        setTodos(response.data);
-        
-        const hasOutside = response.data.some((todo) => todo.location == 'Outside');
-        setOutsideTask(hasOutside);
-      } catch (error) {
-        console.error('Error fetching todos:', error);
-      }
-    };
+  const fetchTodos = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/todos');
+      setTodos(response.data);
+      
+      const hasOutside = response.data.some((todo) => todo.location === 'Outside');
+      setOutsideTask(hasOutside);
+    } catch (error) {
+      console.error('Error fetching todos:', error);
+    }
+  };
 
-    fetchTodos();
+  fetchTodos();
   }, []);
 
   // Checks all the tasks to see if there are outside tasks
   useEffect(() => {
-    const hasRemainingOutsideTasks = todos.some((todo) => todo.location === 'Outside');
+    const hasRemainingOutsideTasks = todos.some((todo) => todo.location === 'Outside' && todo.completed === false);
     setOutsideTask(hasRemainingOutsideTasks);
   }, [todos]);
+
+  const [editingTask, setEditingTask] = useState(null);
+
+  // Function to handle the start of the editing process
+  const handleEdit = (taskId) => {
+    const taskToEdit = todos.find((todo) => todo._id === taskId);
+    setEditingTask(taskToEdit);
+  };
+
+  // Function to handle saving the edited task
+  const handleSaveEdit = async (editedTask) => {
+    try {
+      const response = await axios.put(`http://localhost:5000/todos/${editedTask._id}`, editedTask);
+      setTodos(todos.map((todo) => (todo._id === editedTask._id ? response.data : todo)));
+      setEditingTask(null); // Clear the editing state
+    } catch (error) {
+      console.error('Error updating task:', error);
+    }
+  };
+
+  // Function to handle canceling the editing process
+  const handleCancelEdit = () => {
+    setEditingTask(null); // Clear the editing state
+  };
 
   return (
     <div className="App">
@@ -108,11 +144,13 @@ function App() {
         <button type="submit">Add Task</button>
       </form>
       <div className="separator"></div>
-      {hasOutsideTask && (
+      {hasOutsideTask ? (
         <div>
           <p className="message">Looks like you have an outside task! Here's the weather for the day: </p>
-          <WeatherDisplay className="info" />
+          <WeatherDisplay />
         </div>
+      ) : (
+        <p className="message">No outside tasks for today. Seems like the weather wont be a problem. Lucky you!</p>
       )}
       <ul>
         {todos.map((todo) => (
@@ -120,12 +158,18 @@ function App() {
             <strong>{todo.title}</strong> - {todo.description} - <i>{todo.location}</i> : <strong>({todo.completed ? 'Completed' : 'Incomplete'})</strong>
 
             {!todo.completed && (
-              <button onClick={() => handleComplete(todo._id)}>Complete</button>
+              <React.Fragment>
+                <button onClick={() => handleComplete(todo._id)}>Complete</button>
+                <button className="edit" onClick={() => handleEdit(todo._id)}>Edit</button>
+              </React.Fragment>
             )}
             <button className="delete" onClick={() => handleDelete(todo._id)}>X</button>
           </li>
         ))}
       </ul>
+      {editingTask && (
+        <EditForm task={editingTask} onCancel={handleCancelEdit} onSave={handleSaveEdit} />
+      )}
     </div>
   );
 }

@@ -61,7 +61,7 @@ button.delete {
   background-color: #dadada;
   color: #fff;
   border: none;
-  padding: 8px 12px;
+  padding: 10px;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -73,9 +73,25 @@ button.delete:hover {
   background-color: #a90a17;
 }
 
+button.edit:hover {
+  background-color: #a90a17;
+}
+button.edit {
+  background-color: #dadada;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+  width: 60px;
+}
+
 button:hover {
   background-color: #c73c1e;
 }
+
 
 ul {
   list-style-type: none;
@@ -150,14 +166,15 @@ li {
   text-align: center;
   font-size: 16px;
   color: #64443a;
+  font-weight: 600;
 }
 
 .info {
   background-color: #fff4e1;
-  padding: 15px;
+  padding: 10px;
   border-radius: 10px;
   margin-top: 10px;
   text-align: center;
-  font-size: 14px;
+  font-size: 15px;
   color: #64443a;
 }
