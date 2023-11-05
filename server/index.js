@@ -41,11 +41,11 @@ app.get('/todos/:id', async (req, res) => {
   try {
     const todo = await Todo.findById(req.params.id);
     if (!todo) {
-      return res.status(404).json({ message: 'Todo not found' });
+      return res.status(404).json({ message: 'Task not found' });
     }
     res.json(todo);
   } catch (error) {
-    console.error('Error fetching todo by ID:', error);
+    console.error('Error fetching task by ID:', error);
     res.status(500).json({ message: 'Server Error' });
   }
 });
@@ -72,14 +72,21 @@ app.post('/todos', async (req, res) => {
 // Updates a task by ID
 app.put('/todos/:id', async (req, res) => {
   try {
-    const updatedTodo = await Todo.findByIdAndUpdate(
-      req.params.id,
-      { ...req.body, completed: true },
-      { new: true }
-    );
-    if (!updatedTodo) {
+    const existingTodo = await Todo.findById(req.params.id);
+    if (!existingTodo) {
       return res.status(404).json({ message: 'Task not found' });
     }
+
+    console.log('Existing Todo:', existingTodo);
+
+    // Update only the completed field
+    existingTodo.completed = req.body.completed;
+
+    // Save the updated task
+    const updatedTodo = await existingTodo.save();
+    console.log('Updated Todo:', updatedTodo);
+
+    // Send the updated task
     res.json(updatedTodo);
   } catch (error) {
     console.error('Error updating task by ID:', error);
