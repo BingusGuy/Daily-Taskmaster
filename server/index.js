@@ -58,7 +58,6 @@ app.post('/todos', async (req, res) => {
     // Creates a new task instance with the extracted values
     const newTodo = new Todo({ title, description, location });
 
-    // Saves the task to the database
     const savedTodo = await newTodo.save();
 
     res.json(savedTodo);
@@ -76,10 +75,9 @@ app.put('/todos/:id', async (req, res) => {
       return res.status(404).json({ message: 'Task not found' });
     }
 
-    // Preserve the completed status during the update
     const updatedTodo = await Todo.findByIdAndUpdate(
       req.params.id,
-      { ...req.body, completed: req.body.completed }, // Explicitly set completed status
+      { ...req.body, completed: req.body.completed },
       { new: true }
     );
 
@@ -100,6 +98,17 @@ app.delete('/todos/:id', async (req, res) => {
     res.json(deletedTodo);
   } catch (error) {
     console.error('Error deleting task by ID:', error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
+
+// Deletes all tasks
+app.delete('/todos', async (req, res) => {
+  try {
+    await Todo.deleteManyTasks();
+    res.json({ message: 'All tasks deleted successfully' });
+  } catch (error) {
+    console.error('Error clearing tasks:', error);
     res.status(500).json({ message: 'Server Error' });
   }
 });
