@@ -9,7 +9,6 @@ const EditForm = ({ task, onCancel, onSave }) => {
   };
 
   const handleSave = () => {
-    setEditedTask((prevTask) => ({ ...prevTask, completed: false }));
     onSave(editedTask);
   };
 
