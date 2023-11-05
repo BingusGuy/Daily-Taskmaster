@@ -77,16 +77,13 @@ app.put('/todos/:id', async (req, res) => {
       return res.status(404).json({ message: 'Task not found' });
     }
 
-    console.log('Existing Todo:', existingTodo);
+    // Preserve the completed status during the update
+    const updatedTodo = await Todo.findByIdAndUpdate(
+      req.params.id,
+      { ...req.body, completed: req.body.completed }, // Explicitly set completed status
+      { new: true }
+    );
 
-    // Update only the completed field
-    existingTodo.completed = req.body.completed;
-
-    // Save the updated task
-    const updatedTodo = await existingTodo.save();
-    console.log('Updated Todo:', updatedTodo);
-
-    // Send the updated task
     res.json(updatedTodo);
   } catch (error) {
     console.error('Error updating task by ID:', error);
