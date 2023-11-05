@@ -55,6 +55,19 @@ function App() {
     }
   };
 
+  // Function to handle clearing all tasks
+  const handleClearList = async () => {
+    const confirmDelete = window.confirm("Are you sure you want to clear your list?");
+    if (confirmDelete) {
+      try {
+        await axios.delete('http://localhost:5000/todos');
+        setTodos([]);
+      } catch (error) {
+        console.error('Error clearing the list:', error);
+      }
+    }
+  };
+
   // Allows tasks to be marked as complete
   const handleComplete = async (taskId) => {
     try {
@@ -141,7 +154,8 @@ function App() {
             <option value="Outside">Outside</option>
           </select>
         </label>
-        <button type="submit">Add Task</button>
+        <button class="submit" type="submit">Add Task</button>
+        <button class="clear" onClick={handleClearList}>Clear List</button>
       </form>
       <div className="separator"></div>
       {hasOutsideTask ? (

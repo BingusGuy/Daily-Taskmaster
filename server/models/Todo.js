@@ -23,6 +23,16 @@ const todoSchema = new mongoose.Schema({
   },
 });
 
+todoSchema.statics.deleteManyTasks = async function () {
+  try {
+    await this.deleteMany();
+    console.log('All tasks deleted successfully');
+  } catch (error) {
+    console.error('Error deleting tasks:', error);
+    throw error;
+  }
+};
+
 const Todo = mongoose.model('Todo', todoSchema);
 
 module.exports = Todo;

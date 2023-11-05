@@ -20,13 +20,40 @@ form {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   margin: 0 auto;
-  width: 800px
+  width: 800px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: row;
+  margin-right: 20px;
+  color: #555;
+  justify-content: center;
+}
+
+.input-column {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 label {
-  margin-right: 10px;
+  display: flex;
+  flex-direction: row;
+  margin-right: 20px;
   color: #555;
+}
+
+.location-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 .input-container {
@@ -37,8 +64,8 @@ label {
   margin-bottom: 20px;
 }
 
-input {
-  flex: 1;
+input,
+select {
   padding: 8px;
   margin-bottom: 10px;
   border: 1px solid #ddd;
@@ -55,6 +82,40 @@ button {
   width: 80px;
   margin-right: 5px;
   margin-left: 15px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+button.clear {
+  padding: 10px;
+  background-color: #dadada;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 120px;
+  margin-right: 15px;
+  margin-left: 15px;
+  white-space: nowrap;
+  transition: background-color 0.3s ease;
+}
+
+button.submit {
+  padding: 10px;
+  background-color: #e44d26;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 120px;
+  margin-right: 15px;
+  margin-left: 15px;
+  white-space: nowrap;
+  transition: background-color 0.3s ease;
+}
+
+button.clear:hover {
+  background-color: #a90a17;
 }
 
 button.delete {
