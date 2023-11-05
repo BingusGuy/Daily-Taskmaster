@@ -68,7 +68,6 @@ app.post('/todos', async (req, res) => {
   }
 });
 
-
 // Updates a task by ID
 app.put('/todos/:id', async (req, res) => {
   try {
@@ -90,7 +89,6 @@ app.put('/todos/:id', async (req, res) => {
     res.status(500).json({ message: 'Server Error' });
   }
 });
-
 
 // Deletes a task by ID
 app.delete('/todos/:id', async (req, res) => {
