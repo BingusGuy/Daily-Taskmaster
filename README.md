@@ -1,5 +1,5 @@
 # Daily-Taskmaster
-Made by Austin Counterman/n
+Made by Austin Counterman
 URL for the git rep: https://github.com/BingusGuy/Daily-Taskmaster
 
 # What is inside?:
