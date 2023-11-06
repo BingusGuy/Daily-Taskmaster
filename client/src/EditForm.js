@@ -28,7 +28,7 @@ const EditForm = ({ task, onCancel, onSave }) => {
           </label>
         </div>
         <label className="location-label">
-          <strong>Location:</strong>
+          <strong>Task Area:</strong>
           <select name="location" value={editedTask.location} onChange={handleChange}>
             <option value="Inside">Inside</option>
             <option value="Outside">Outside</option>

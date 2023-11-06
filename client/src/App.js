@@ -148,7 +148,7 @@ function App() {
           <input type="text" name="description" value={newTodo.description} onChange={handleChange} required />
         </label>
         <label>
-          <strong>Location:</strong>
+          <strong>Task Area:</strong>
           <select name="location" value={newTodo.location} onChange={handleChange}>
             <option value="Inside">Inside</option>
             <option value="Outside">Outside</option>
