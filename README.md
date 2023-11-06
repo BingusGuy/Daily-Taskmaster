@@ -7,6 +7,7 @@ URL for the git rep: https://github.com/BingusGuy/Daily-Taskmaster
 -Inside you will find a client folder and a server folder. The client folder is the frontend of the web app and handles the api and anything related to what the user will see and interact with. The server folder contains files that handle the schema of task items and the connection to the database with corresponding functions that obtain and handle data from it.
 
 Client:
+
 -App.css is the styling sheet for the web app
 
 -App.js is the model for the web apps's front end and helps display information and modifying the task list, like adding, deleting, and editing tasks.
@@ -16,6 +17,7 @@ Client:
 -weatherAPI.js and weatherDisplay.js handles the connection to the openWeatherAPI and helps display the data retrieved from it.
 
 Server:
+
 -Todo.js is the schema for task items
 
 -index.js handles the connection to the database and provides functions that interact with the database.
