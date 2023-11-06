@@ -1,5 +1,6 @@
 # Daily-Taskmaster
 Made by Austin Counterman
+
 URL for the git rep: https://github.com/BingusGuy/Daily-Taskmaster
 
 # What is inside?:
@@ -7,12 +8,16 @@ URL for the git rep: https://github.com/BingusGuy/Daily-Taskmaster
 
 Client:
 -App.css is the styling sheet for the web app
+
 -App.js is the model for the web apps's front end and helps display information and modifying the task list, like adding, deleting, and editing tasks.
+
 -EditForm.js is the model for the editing form
+
 -weatherAPI.js and weatherDisplay.js handles the connection to the openWeatherAPI and helps display the data retrieved from it.
 
 Server:
 -Todo.js is the schema for task items
+
 -index.js handles the connection to the database and provides functions that interact with the database.
 
 # What tech stack was used?:
